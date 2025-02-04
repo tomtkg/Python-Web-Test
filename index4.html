@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>タイトル</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+</head>
+<body>
+    <button onclick="main()">実行</button>
+    <pre id="output"></pre>
+    <script type="text/javascript">
+        async function main() {
+            let pyodide = await loadPyodide();
+            let result = pyodide.runPython(`"Hello World"`);
+            document.getElementById("output").innerText = result;
+        }
+    </script>
+</body>
+</html>
