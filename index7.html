@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>タイトル</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+</head>
+<body>
+    Pythonプログラム<br>
+    <textarea id="code" rows="10" cols="79">print("Hello World")</textarea><br>
+    <button onclick="main()">実行</button>
+    <pre id="output"></pre>
+
+    <script type="text/javascript">
+        async function main() {
+            let code = document.getElementById("code").value;
+            let pyodide = await loadPyodide();
+            await pyodide.loadPackage(["matplotlib", "numpy", "pandas", "scikit-learn", "scipy"]);
+
+            document.querySelectorAll("canvas, img.matplotlib").forEach(el => el.remove());
+            let result = "";
+            try {
+                pyodide.setStdout({ batched: (msg) => { result += msg + "\n"; } });
+                pyodide.runPython(code);
+            } catch (error) {
+                result = error
+            }
+            document.getElementById("output").innerText = result;
+        }
+    </script>
+</body>
+</html>
