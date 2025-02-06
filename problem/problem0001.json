@@ -1,0 +1,19 @@
+{
+    "format": "a",
+    "main": "標準入力から値aを受け取り，そのまま出力せよ．",
+    "answer": "a = input()\nprint(a)",
+    "example": [
+        {
+            "input": "Hello",
+            "output": "Hello"
+        },
+        {
+            "input": "こんにちは！",
+            "output": "こんにちは！"
+        },
+        {
+            "input": "5",
+            "output": "5"
+        }
+    ]
+}
