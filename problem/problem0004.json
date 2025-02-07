@@ -1,0 +1,19 @@
+{
+    "format": "a   b",
+    "main": "aとbは，タブで区切られている．\n上記2つの数値を標準入力から受け取り，その差の絶対値を出力せよ．",
+    "answer": "a, b = map(int, input().split())\nprint(abs(a - b))",
+    "example": [
+        {
+            "input": "3   5",
+            "output": "2"
+        },
+        {
+            "input": "11  9",
+            "output": "2"
+        },
+        {
+            "input": "-5  2",
+            "output": "7"
+        }
+    ]
+}
