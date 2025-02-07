@@ -1,0 +1,19 @@
+{
+    "format": "a\nb",
+    "main": "上記2つの数値を標準入力から受け取り，その和を出力せよ．",
+    "answer": "a = int(input())\nb = int(input())\nprint(a + b)",
+    "example": [
+        {
+            "input": "3\n5",
+            "output": "8"
+        },
+        {
+            "input": "11\n9",
+            "output": "20"
+        },
+        {
+            "input": "-5\n2",
+            "output": "-3"
+        }
+    ]
+}
