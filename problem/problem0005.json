@@ -1,0 +1,11 @@
+{
+    "format": "n\nx_1\nx_2\n...\nx_n",
+    "main": "n+1行の入力が与えられる．\n2行目以降の各xについて，その値を2乗した結果を出力せよ．\nn行の出力が期待される．",
+    "answer": "n = int(input())\nfor _ in range(n):\n    x = int(input())\n    print(x ** 2)",
+    "example": [
+        {
+            "input": "4\n3\n5\n7\n11",
+            "output": "9\n25\n49\n121"
+        }
+    ]
+}
