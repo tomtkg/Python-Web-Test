@@ -1,0 +1,19 @@
+{
+    "format": "n",
+    "main": "標準入力から整数nを受け取り，円周率を小数点第n桁まで出力せよ．",
+    "answer": "import math\nn = int(input())\nprint(round(math.pi,n))",
+    "example": [
+        {
+            "input": "2",
+            "output": "3.14"
+        },
+        {
+            "input": "5",
+            "output": "3.14159"
+        },
+        {
+            "input": "14",
+            "output": "3.14159265358979"
+        }
+    ]
+}
