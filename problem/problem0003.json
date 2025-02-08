@@ -1,6 +1,6 @@
 {
     "format": "a\nb",
-    "main": "上記2つの数値を標準入力から受け取り，その積を出力せよ．",
+    "main": "上記2つの整数を標準入力から受け取り，その積を出力せよ．",
     "answer": "a = int(input())\nb = int(input())\nprint(a * b)",
     "example": [
         {
