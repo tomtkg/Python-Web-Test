@@ -1,0 +1,19 @@
+{
+    "format": "a",
+    "main": "正方形の1辺の長さをaとする．\n正方形の面積と周りの長さを1行で出力せよ．\n2行の出力が期待される．",
+    "answer": "a = float(input())\nprint(a ** 2)\nprint(4 * a)",
+    "example": [
+        {
+            "input": "3",
+            "output": "9.0\n12.0"
+        },
+        {
+            "input": "4.5",
+            "output": "20.25\n18"
+        },
+        {
+            "input": "7",
+            "output": "49.0\n28.0"
+        }
+    ]
+}
