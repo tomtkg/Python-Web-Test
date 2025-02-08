@@ -1,0 +1,23 @@
+{
+    "format": "a",
+    "main": "標準入力から数値aを受け取り，aが3より大きければOK，3以下であればNGを出力せよ．",
+    "answer": "a = float(input())\nif a > 3:\n    print('OK')\nelse:\n    print('NG')",
+    "example": [
+        {
+            "input": "3.14",
+            "output": "OK"
+        },
+        {
+            "input": "-5",
+            "output": "NG"
+        },
+        {
+            "input": "3",
+            "output": "NG"
+        },
+        {
+            "input": "555",
+            "output": "OK"
+        }
+    ]
+}
