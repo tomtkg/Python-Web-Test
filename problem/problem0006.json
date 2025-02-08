@@ -1,0 +1,19 @@
+{
+    "format": "a\nb",
+    "main": "上記2つの文字列を標準入力から受け取り，結合した文字列を1行で出力せよ．\n2つの文字列の間は，半角スペースの存在が期待される．",
+    "answer": "a = input()\nb = input()\nprint(a, b)",
+    "example": [
+        {
+            "input": "Hello\nWorld",
+            "output": "Hello World"
+        },
+        {
+            "input": "Artificial\nIntelligence",
+            "output": "Artificial Intelligence"
+        },
+        {
+            "input": "Evolutionary\nComputation",
+            "output": "Evolutionary Computation"
+        }
+    ]
+}
