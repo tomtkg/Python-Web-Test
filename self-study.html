@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Python Self Study</title>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+    <style>
+        body { margin: auto; width: 1200px; font-size: 25px; }
+        #editor { height: 510px; }
+        #exe { font-size: inherit; margin-top: 20px; }
+        #loading { display: none; margin-left: 10px; }
+    </style>
+</head>
+
+<body>
+    <h2>Python自習室：自由にPythonを実行して遊ぼう</h2>
+    <div id="editor"></div>
+    <button id="exe" onclick="main()">実行 (Ctrl + Enter)</button>
+    <span id="loading">プログラム実行中...</span>
+    <pre id="output"></pre>
+
+    <script type="text/javascript">
+        const pyodideReady = loadPyodide().then(async pyodide => {
+            await pyodide.loadPackage(["matplotlib", "numpy", "pandas", "scikit-learn", "scipy"]);
+            let output = document.getElementById("output");
+            pyodide.setStdout({ batched: (msg) => { output.innerText += msg + "\n"; } });
+            return pyodide
+        });
+
+        require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs' } });
+
+        require(['vs/editor/editor.main'], async function () {
+            const editor = monaco.editor.create(document.getElementById('editor'), {
+                value: 'print("Hello World")',
+                language: 'python',
+                theme: 'vs-dark',
+                fontSize: 25,
+                wordWrap: 'on',
+                lineNumbersMinChars: 3,
+            });
+
+            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+                if (!document.getElementById("exe").disabled) window.main()
+            });
+
+            window.main = async function () {
+                document.getElementById("exe").disabled = true;
+                document.getElementById("loading").style.display = "inline";
+                document.getElementById("output").innerText = "";
+                document.querySelectorAll("canvas, img.matplotlib").forEach(x => x.remove());
+
+                let pyodide = await pyodideReady;
+                try { pyodide.runPython(editor.getValue()) }
+                catch (error) { document.getElementById("output").innerText = error }
+
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("exe").disabled = false;
+            };
+        });
+    </script>
+</body>
+</html>
