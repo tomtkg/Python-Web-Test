@@ -1,0 +1,28 @@
+name: Update Settings
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Update problem_count if needed
+        run: |
+          count1=$(ls -1 problem | wc -l)
+          count2=$(jq -r '.problem_count' src/settings.json)
+          if [ "$count1" -eq "$count2" ]; then
+            echo "No updates: problem_count is $count1"
+          else
+            jq ".problem_count = $count1" src/settings.json > tmp.json
+            mv tmp.json src/settings.json
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+            git add src/settings.json
+            git commit -m "Update problem_count in settings.json"
+            git push
+          fi
