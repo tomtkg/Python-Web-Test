@@ -1,0 +1,23 @@
+{
+    "format": "H   M",
+    "main": "整数H（分解パラメータ）とM（次元数）がタブ区切りで入力として与えられる．\n2つのパラメータから，Incremental Lattice Designに基づく点群を作成し，出力せよ．\n出力は，以下が期待される．\n・M列のndarrayデータで，各行の要素の合計は1となる\n・データは，超平面上に均一分布する点群を表現可能で，行単位で昇順にソートされている\n・データは，単位ベクトルと単位超立方体の重心（中心）が必ず含まれる\n・M=3での出力は[[0 0 1]...[0 1 0]...[0.33333333 0.33333333 0.33333333]...[1 0 0]]\n\n参考情報：<a href=\"https://raw.githubusercontent.com/tomtkg/MATLAB-Sample/refs/heads/main/contest2023/movie/Incremental%20Lattice%20Design.gif\" target=\"_blank\">M=3次元のGIFイメージ</a>，<a href=\"https://tomtkg.github.io/animation/ILD.html\" target=\"_blank\">M=3次元のアニメーション</a>, <a href=\"https://github.com/tomtkg/ILD\" target=\"_blank\">GitHub</a>\n\n論文情報：Tomoaki Takagi, Keiki Takadama, and Hiroyuki Sato, '<strong>Incremental Lattice Design of Weight Vector Set</strong>',  Proc. of ACM Genetic and Evolutionary Computation Conference (<a href=\"https://gecco-2020.sigevo.org\" target=\"_blank\">GECCO2020</a>), pp. 1486–1494, 2020. <a href=\"https://doi.org/10.1145/3377929.3398082\" target=\"_blank\">DOI</a>.",
+    "answer": "import numpy as np\n\nH, M = map(int, input().split())\nI = M * np.eye(M)\nW = np.zeros((1, M))\nedgeW = W\n\nfor _ in range(H):\n    edgeW = np.tile(edgeW, (M, 1)) + np.repeat(I, edgeW.shape[0], axis=0)\n    edgeW = np.unique(edgeW, axis=0)\n    edgeW = edgeW [np.any(edgeW == 0, axis=1)]\n    W = np.vstack((W + 1, edgeW))\n\nprint(W[np.argsort(W[:, 0], axis=0)] / (M * H))",
+    "example": [
+        {
+            "input": "2   2",
+            "output": "[[0.   1.  ]\n [0.25 0.75]\n [0.5  0.5 ]\n [0.75 0.25]\n [1.   0.  ]]"
+        },
+        {
+            "input": "4   2",
+            "output": "[[0.    1.   ]\n [0.125 0.875]\n [0.25  0.75 ]\n [0.375 0.625]\n [0.5   0.5  ]\n [0.625 0.375]\n [0.75  0.25 ]\n [0.875 0.125]\n [1.    0.   ]]"
+        },
+        {
+            "input": "2   3",
+            "output": "[[0.         0.         1.        ]\n [0.         0.5        0.5       ]\n [0.         1.         0.        ]\n [0.16666667 0.16666667 0.66666667]\n [0.16666667 0.66666667 0.16666667]\n [0.33333333 0.33333333 0.33333333]\n [0.5        0.         0.5       ]\n [0.5        0.5        0.        ]\n [0.66666667 0.16666667 0.16666667]\n [1.         0.         0.        ]]"
+        },
+        {
+            "input": "1   5",
+            "output": "[[0.  0.  0.  0.  1. ]\n [0.  0.  0.  1.  0. ]\n [0.  0.  1.  0.  0. ]\n [0.  1.  0.  0.  0. ]\n [0.2 0.2 0.2 0.2 0.2]\n [1.  0.  0.  0.  0. ]]"
+        }
+    ]
+}
