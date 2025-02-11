@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Pythonプログラミング問題</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+</head>
+<body>
+    <h1>
+        Pythonプログラミング問題　問題番号：
+        <select id="select"></select>
+    </h1>
+
+    <div class="container">
+        <div class="left area">
+            <h2>入力フォーマットと問題文</h2>
+            <pre id="format"></pre>
+            <p id="main"></p>
+        </div>
+        <div class="right area">
+            <h2>解答プログラム</h2>
+            <div id="editor"></div>
+            <button id="exe" onclick="main()">実行 (Ctrl + Enter)</button>
+            <span id="loading"></span>
+            <button id="answer" onclick="answer()">解答例を出す</button>
+            <button id="remove" onclick="remove()">全削除</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="other area">
+            <h2>与えられる入力</h2>
+            <div id="input"></div>
+        </div>
+        <div class="other area">
+            <h2>期待される出力</h2>
+            <div id="expect"></div>
+        </div>
+        <div class="other area" id="resultBlock">
+            <h2>解答プログラムの出力　<span id="result"></span></h2>
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <script src="src/main.js"></script>
+</body>
+</html>
