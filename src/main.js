@@ -4,19 +4,16 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             const select = document.getElementById("select");
 
-            for (let i = 1; i <= data.problem_count; i++) {
-                let option = document.createElement("option");
-                option.value = option.textContent = i;
-                select.appendChild(option);
-            }
-
-            loadProblem(select.value);
+            select.innerHTML = Array.from({ length: data.problem_count }, (_, i) =>
+                `<option value="${i + 1}">${i + 1}</option>`).join("");
 
             select.addEventListener("change", () => {
                 loadProblem(select.value)
                 document.getElementById("result").textContent = "";
                 document.getElementById("resultBlock").style.backgroundColor = "#f0f0f0";
             });
+
+            loadProblem(select.value);
         })
         .catch(error => console.error("Error loading settings.json:", error));
 });
@@ -72,37 +69,30 @@ require(['vs/editor/editor.main'], async function () {
 
         const code = editor.getValue();
         let pyodide = await pyodideReady;
-        let outputElems = document.querySelectorAll("#output pre");
+        let outputs = document.querySelectorAll("#output pre");
         let isCorrect = true;
 
         window.data.example.forEach((x, i) => {
-            let outputElem = outputElems[i];
+            let output = outputs[i];
             pyodide.setStdin({
                 lines: x.input.trim().split("\n"),
-                stdin() { return this.lines.shift() || undefined; }
+                stdin() { return this.lines.shift() || undefined }
             });
-            pyodide.setStdout({ batched: (msg) => { outputElem.innerText += msg + "\n" } });
+            pyodide.setStdout({
+                batched: (msg) => { output.innerText += msg + "\n" }
+            });
 
             try { pyodide.runPython(code) }
-            catch (error) { outputElem.innerText = error }
+            catch (error) { output.innerText = error }
 
-            const a = x.output.trim();
-            const b = outputElem.innerText.trim();
-
-            if (!isNaN(a) && !isNaN(b)) {
-                if (Math.abs(a - b) > 1e-6) { isCorrect = false }
-            } else {
-                if (a != b) { isCorrect = false }
+            if (isCorrect) {
+                if (isFailed(x.output, output.innerText)) {
+                    isCorrect = false;
+                }
             }
         });
 
-        let result = document.getElementById('result');
-        let bg = document.getElementById("resultBlock");
-
-        result.textContent = isCorrect ? '正解' : '不正解';
-        result.style.color = isCorrect ? "crimson" : "mediumblue";
-        bg.style.backgroundColor = isCorrect ? "lavenderblush" : "azure";
-
+        updateResult(isCorrect);
         document.getElementById("loading").textContent = "";
         document.getElementById("exe").disabled = false;
     };
@@ -117,3 +107,22 @@ require(['vs/editor/editor.main'], async function () {
         document.querySelectorAll("#output pre").forEach(pre => pre.innerText = "");
     };
 });
+
+function isFailed(a, b) {
+    a, b = a.trim(), b.trim()
+    if (!isNaN(a) && !isNaN(b)) {
+        if (Math.abs(a - b) > 1e-6) return true;
+    } else {
+        if (a != b) return true;
+    }
+    return false
+}
+
+function updateResult(isCorrect) {
+    let result = document.getElementById('result');
+    let bg = document.getElementById("resultBlock");
+
+    result.textContent = isCorrect ? '正解' : '不正解';
+    result.style.color = isCorrect ? "crimson" : "mediumblue";
+    bg.style.backgroundColor = isCorrect ? "lavenderblush" : "azure";
+}
