@@ -12,7 +12,6 @@
         #loading { display: none; margin-left: 10px; }
     </style>
 </head>
-
 <body>
     <h2>Python自習室：自由にPythonを実行して遊ぼう</h2>
     <div id="editor"></div>
@@ -51,8 +50,13 @@
                 document.querySelectorAll("canvas, img.matplotlib").forEach(x => x.remove());
 
                 let pyodide = await pyodideReady;
-                try { pyodide.runPython(editor.getValue()) }
-                catch (error) { document.getElementById("output").innerText = error }
+                let code = editor.getValue();
+
+                try {
+                    pyodide.runPython(code)
+                } catch (error) {
+                    document.getElementById("output").innerText = error
+                }
 
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("exe").disabled = false;
